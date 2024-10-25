@@ -9,20 +9,16 @@
 <body>
     <div class="level-container">
         <h1>Select HSK Level</h1>
-        <ul id="level-list"></ul>
-        <a class="back-home" href="index.html">Back to Home</a>
+        <ul>
+            {% for level in flashcards.keys() %}
+                <li>
+                    <a href="{{ url_for('flashcard', level=level) }}">
+                        {{ level }} ({{ flashcards[level]|length }} available)
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a class="back-home" href="{{ url_for('index') }}">Back to Home</a>
     </div>
-    <script>
-        fetch('hsk_flashcards.json')
-            .then(response => response.json())
-            .then(data => {
-                const levelList = document.getElementById('level-list');
-                for (const level in data) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<a href="flashcard.html?level=${level}">${level} (${data[level].length} available)</a>`;
-                    levelList.appendChild(li);
-                }
-            });
-    </script>
 </body>
 </html>
