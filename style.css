@@ -1,14 +1,13 @@
 body {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Noto Sans', sans-serif; /* Nice Chinese-themed font */
     text-align: center;
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
+    height: 100vh; /* Full height for centering */
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    height: 100vh;
 }
 
 .welcome-container {
@@ -16,7 +15,6 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     padding: 40px;
-    text-align: center;
     max-width: 500px;
     margin: auto;
 }
@@ -26,12 +24,6 @@ body {
     font-size: 2.5rem; /* Larger heading */
     margin-bottom: 10px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.welcome-container p {
-    font-size: 1.2rem;
-    color: #555; /* Dark gray */
-    margin-bottom: 20px;
 }
 
 .start-button {
@@ -48,108 +40,71 @@ body {
 .start-button:hover {
     background: linear-gradient(135deg, #4cae4c, #5cb85c);
     transform: scale(1.05);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .level-container {
-    background: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     padding: 40px;
-    max-width: 500px; /* Fixed width for better layout */
-    margin: auto; /* Centering the level selector */
-}
-
-.level-container h1 {
-    color: #d9534f;
-    margin-bottom: 20px;
-}
-
-.level-container ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.level-container li {
-    margin: 15px 0;
-    transition: transform 0.2s;
-}
-
-.level-container li:hover {
-    transform: scale(1.05);
-}
-
-.level-container a {
-    display: block;
-    text-decoration: none;
-    color: #4a4a4a;
-    background: linear-gradient(135deg, #dff0d8, #c4e0b4);
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    font-size: 18px;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.level-container a:hover {
-    background: linear-gradient(135deg, #c4e0b4, #dff0d8);
-    transform: scale(1.02);
+    max-width: 500px;
+    margin: auto;
 }
 
 .flashcard-container {
     width: 90%; /* Responsive width */
     max-width: 500px; /* Limit max width for larger screens */
-    margin: auto;
+    margin: auto; /* Centering */
 }
 
 .flashcard {
     width: 100%;
     aspect-ratio: 4 / 3; /* Card aspect ratio */
     position: relative;
-    perspective: 1000px;
+    perspective: 1000px; /* Perspective for 3D effect */
 }
 
 .flashcard > div {
     width: 100%;
     height: 100%;
     position: absolute;
-    backface-visibility: hidden;
+    backface-visibility: hidden; /* Hide the back when facing away */
     display: flex;
     justify-content: center;
     align-items: center;
     border: 2px solid #ccc;
     background-color: #fff;
-    border-radius: 15px;
+    border-radius: 15px; /* Rounded corners */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.6s;
 }
 
 .front {
-    z-index: 2;
+    z-index: 2; /* Front side on top */
 }
 
 .back {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* Hide back side */
 }
 
 .flipped .front {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* Flip front */
 }
 
 .flipped .back {
-    transform: rotateY(0);
+    transform: rotateY(0); /* Show back */
 }
 
 h2, h3 {
     margin: 0;
     font-size: 1.5rem; /* Adjust font size for mobile */
-    word-wrap: break-word;
+    word-wrap: break-word; /* Handle long text */
 }
 
-button, .option-button {
+button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green button */
     color: white;
     border: none;
     border-radius: 5px;
@@ -158,26 +113,23 @@ button, .option-button {
     width: 80%; /* Make buttons wider */
 }
 
-button:hover, .option-button:hover {
-    background-color: #45a049;
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
 }
 
-.score {
-    font-size: 1.2rem; /* Adjust font size for mobile */
-    margin-top: 20px;
-}
-
-.feedback {
-    font-size: 1.5rem; /* Adjust feedback font size */
-    margin-top: 20px;
-}
-
+/* Scoring feedback */
 .correct {
-    color: #5cb85c; /* Green for correct */
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 2px solid #c3e6cb; /* Green border */
+    transition: all 0.5s;
 }
 
 .wrong {
-    color: #d9534f; /* Red for wrong */
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 2px solid #f5c6cb; /* Red border */
+    transition: all 0.5s;
 }
 
 .options {
@@ -203,4 +155,16 @@ button:hover, .option-button:hover {
 .options button:hover {
     background-color: #4cae4c; /* Darker on hover */
     transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Centering for level selection */
+.level-container {
+    text-align: center;
+    margin-top: 50px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 80%;
+    max-width: 600px; /* Ensure max width */
 }
