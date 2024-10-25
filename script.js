@@ -39,6 +39,7 @@ function loadOptions(correctAnswer) {
     options.forEach(option => {
         const button = document.createElement('button');
         button.innerText = option;
+        button.classList.add('option-button'); // Add class for styling
         button.onclick = () => checkAnswer(option, correctAnswer.split(';')[0]);
         optionsDiv.appendChild(button);
     });
