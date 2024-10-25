@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="front">
+                <h2 class="chinese" id="chinese"></h2>
+            </div>
+            <div class="back hidden">
+                <h3 class="english" id="english"></h3>
+            </div>
+        </div>
+        <button onclick="nextFlashcard()">Next Flashcard</button>
+        <br>
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+
+    <script>
+        // Pass the flashcards as a JavaScript variable
+        const flashcards = {{ flashcards | tojson | safe }};  // Ensure this is safe for rendering
+        let currentIndex = Math.floor(Math.random() * flashcards.length);  // Randomly select a starting card
+
+        // Function to display the current flashcard
+        function displayCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('chinese').innerText = card.chinese;
+            document.getElementById('english').innerText = card.english;
+        }
+
+        // Function to flip the card
+        function flipCard() {
+            const card = document.getElementById('flashcard');
+            card.classList.toggle('flipped');
+        }
+
+        // Function to go to the next flashcard
+        function nextFlashcard() {
+            currentIndex = Math.floor(Math.random() * flashcards.length);  // Select a new random card
+            displayCard();  // Update the displayed card
+        }
+
+        // Initial display of the flashcard
+        displayCard();
+    </script>
+</body>
+</html>
