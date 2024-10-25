@@ -9,12 +9,20 @@
 <body>
     <div class="level-container">
         <h1>Select HSK Level</h1>
-        <ul>
-            <li><a href="flashcard.html?level=HSK1">HSK1 (10 available)</a></li>
-            <li><a href="flashcard.html?level=HSK2">HSK2 (10 available)</a></li>
-            <!-- Add more levels as necessary -->
-        </ul>
+        <ul id="level-list"></ul>
         <a class="back-home" href="index.html">Back to Home</a>
     </div>
+    <script>
+        fetch('hsk_flashcards.json')
+            .then(response => response.json())
+            .then(data => {
+                const levelList = document.getElementById('level-list');
+                for (const level in data) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="flashcard.html?level=${level}">${level} (${data[level].length} available)</a>`;
+                    levelList.appendChild(li);
+                }
+            });
+    </script>
 </body>
 </html>
