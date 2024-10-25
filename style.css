@@ -168,3 +168,13 @@ button:hover {
     width: 80%;
     max-width: 600px; /* Ensure max width */
 }
+.flash-red {
+    animation: flash-red 1s ease forwards;
+}
+
+@keyframes flash-red {
+    0% { background-color: rgba(255, 0, 0, 0.3); }
+    50% { background-color: rgba(255, 0, 0, 0.5); }
+    100% { background-color: rgba(255, 0, 0, 0.3); }
+}
+
