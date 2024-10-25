@@ -1,29 +1,34 @@
+/* General body styles */
 body {
-    font-family: 'Noto Sans', sans-serif; /* Nice Chinese-themed font */
-    text-align: center;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f9f9f9, #e2e2e2);
     margin: 0;
-    padding: 20px;
-    height: 100vh; /* Full height for centering */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0;
+    color: #333;
 }
 
+/* Welcome container */
 .welcome-container {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     padding: 40px;
+    text-align: center;
     max-width: 500px;
-    margin: auto;
+    margin: 50px auto;
 }
 
 .welcome-container h1 {
     color: #d9534f; /* Chinese red */
-    font-size: 2.5rem; /* Larger heading */
+    font-size: 2.5rem;
     margin-bottom: 10px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-container p {
+    font-size: 1.2rem;
+    color: #555; /* Dark gray */
+    margin-bottom: 20px;
 }
 
 .start-button {
@@ -40,8 +45,10 @@ body {
 .start-button:hover {
     background: linear-gradient(135deg, #4cae4c, #5cb85c);
     transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Level container */
 .level-container {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
@@ -51,32 +58,73 @@ body {
     margin: auto;
 }
 
+.level-container h1 {
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+.level-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.level-container li {
+    margin: 15px 0;
+    transition: transform 0.2s;
+}
+
+.level-container li:hover {
+    transform: scale(1.05);
+}
+
+.level-container a {
+    display: block;
+    text-decoration: none;
+    color: #4a4a4a;
+    background: linear-gradient(135deg, #dff0d8, #c4e0b4);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.level-container a:hover {
+    background: linear-gradient(135deg, #c4e0b4, #dff0d8);
+    transform: scale(1.02);
+}
+
+/* Flashcard styles */
 .flashcard-container {
-    width: 90%; /* Responsive width */
-    max-width: 500px; /* Limit max width for larger screens */
-    margin: auto; /* Centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
 }
 
 .flashcard {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Card aspect ratio */
+    height: auto;
+    aspect-ratio: 4 / 3;
     position: relative;
     perspective: 1000px; /* Perspective for 3D effect */
+    margin-bottom: 20px; /* Spacing between cards and options */
 }
 
-.flashcard > div {
+.front,
+.back {
     width: 100%;
     height: 100%;
     position: absolute;
-    backface-visibility: hidden; /* Hide the back when facing away */
+    backface-visibility: hidden; /* Hide back when facing away */
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #ccc;
+    border: 2px solid #ccc; /* Border for card */
     background-color: #fff;
     border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.6s;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    transition: transform 0.6s; /* Transition for card flip */
 }
 
 .front {
@@ -87,84 +135,61 @@ body {
     transform: rotateY(180deg); /* Hide back side */
 }
 
-.flipped .front {
-    transform: rotateY(180deg); /* Flip front */
+.flipped {
+    transform: rotateY(180deg);
 }
 
-.flipped .back {
-    transform: rotateY(0); /* Show back */
+h2.chinese {
+    font-size: 3rem; /* Larger Chinese text */
+    color: #d9534f; /* Chinese red */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for text */
 }
 
-h2, h3 {
-    margin: 0;
-    font-size: 1.5rem; /* Adjust font size for mobile */
-    word-wrap: break-word; /* Handle long text */
+h3.english {
+    font-size: 2rem; /* English text size */
+    color: #333; /* Darker color for contrast */
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Green button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 80%; /* Make buttons wider */
-}
-
-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
-
-/* Scoring feedback */
-.correct {
-    background-color: #d4edda; /* Light green */
-    color: #155724; /* Dark green text */
-    border: 2px solid #c3e6cb; /* Green border */
-    transition: all 0.5s;
-}
-
-.wrong {
-    background-color: #f8d7da; /* Light red */
-    color: #721c24; /* Dark red text */
-    border: 2px solid #f5c6cb; /* Red border */
-    transition: all 0.5s;
-}
-
+/* Options styles */
 .options {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.option-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #5bc0de, #31b0d5); /* Blue gradient */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin: 10px 0; /* Spacing between buttons */
+}
+
+.option-button:hover {
+    background: linear-gradient(135deg, #31b0d5, #5bc0de);
+    transform: scale(1.05); /* Slightly enlarge */
+}
+
+/* Score and feedback styles */
+.score {
+    font-size: 24px;
     margin-top: 20px;
 }
 
-.options button {
-    width: 80%; /* Full width buttons on mobile */
-    padding: 15px;
-    font-size: 1.1rem; /* Larger text */
-    margin: 5px 0; /* Spacing between buttons */
-    background-color: #5cb85c; /* Button color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+.feedback {
+    font-size: 24px;
+    margin-top: 20px;
+    transition: opacity 0.5s ease;
 }
 
-.options button:hover {
-    background-color: #4cae4c; /* Darker on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+.correct {
+    color: #5cb85c; /* Green for correct */
 }
 
-/* Centering for level selection */
-.level-container {
-    text-align: center;
-    margin-top: 50px;
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    width: 80%;
-    max-width: 600px; /* Ensure max width */
+.wrong {
+    color: #d9534f; /* Red for wrong */
 }
