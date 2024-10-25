@@ -67,29 +67,6 @@ function nextFlashcard() {
     flashcard.classList.remove('flipped');
     displayCard();
 }
-function checkAnswer(selected, correct) {
-    const flashcard = document.getElementById('flashcard');
-    const feedback = document.getElementById('feedback');
-    flashcard.classList.add('flipped');
-    document.getElementById('next-button').style.display = 'block';
-
-    if (selected === correct) {
-        score++;
-        feedback.innerText = "Correct!";
-        feedback.className = "feedback correct";
-    } else {
-        score--;
-        feedback.innerText = "Wrong!";
-        feedback.className = "feedback wrong";
-        flashcardContainer = document.querySelector('.flashcard-container');
-        flashcardContainer.classList.add('flash-red');
-
-        setTimeout(() => {
-            flashcardContainer.classList.remove('flash-red');
-        }, 1000); // Flash for 1 second
-    }
-}
-
 
 // Fetch the level from URL parameters and load flashcards
 const urlParams = new URLSearchParams(window.location.search);
