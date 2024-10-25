@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/confetti-js/1.0.1/confetti.min.js"></script>
+    <style>
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        .options button {
+            width: 100%; /* Full width buttons */
+            padding: 15px;
+            font-size: 18px; /* Larger text */
+            margin: 5px 0; /* Spacing between buttons */
+            background-color: #5cb85c; /* Button color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .options button:hover {
+            background-color: #4cae4c; /* Darker on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        .score {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .feedback {
+            font-size: 24px;
+            margin-top: 20px;
+            transition: opacity 0.5s ease;
+        }
+        .correct {
+            color: #5cb85c; /* Green for correct */
+        }
+        .wrong {
+            color: #d9534f; /* Red for wrong */
+        }
+    </style>
+</head>
+<body>
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="front">
+                <h2 class="chinese" id="chinese"></h2>
+            </div>
+            <div class="back hidden">
+                <h3 class="english" id="english"></h3>
+            </div>
+        </div>
+        
+        <div id="options" class="options"></div>
+        <button id="next-button" onclick="nextFlashcard()" style="display: none;">Next Flashcard</button>
+        <br>
+        <a href="{{ url_for('index') }}">Back to Home</a>
+        
+        <div id="score" class="score">Score: 0</div>
+        <div id="feedback" class="feedback"></div> <!-- Feedback message container -->
+    </div>
+
+    <script>
+        const flashcards = {{ flashcards | tojson | safe }};
+        let currentIndex;
+        let score = 0;
+
+        function displayCard() {
+            // Reset UI elements
+            document.getElementById('next-button').style.display = 'none';
+            document.getElementById('score').innerText = `Score: ${score}`;
+            document.getElementById('options').innerHTML = '';
+            document.getElementById('feedback').innerText = ''; // Clear feedback
+
+            currentIndex = Math.floor(Math.random() * flashcards.length);
+            const card = flashcards[currentIndex];
+            document.getElementById('chinese').innerText = card.chinese;
+            document.getElementById('english').innerText = card.english.split(';')[0]; // Show only the first part for back
+            loadOptions(card.english); // Load multiple choice options
+        }
+
+        function loadOptions(correctAnswer) {
+            const options = [correctAnswer.split(';')[0]]; // Get only the first part
+            while (options.length < 3) {
+                const randomCard = flashcards[Math.floor(Math.random() * flashcards.length)];
+                const option = randomCard.english.split(';')[0]; // Get first part
+                if (!options.includes(option)) {
+                    options.push(option);
+                }
+            }
+            options.sort(() => Math.random() - 0.5); // Shuffle options
+
+            const optionsDiv = document.getElementById('options');
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(option, correctAnswer.split(';')[0]); // Compare with first part
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const flashcard = document.getElementById('flashcard');
+            const feedback = document.getElementById('feedback');
+
+            // Always flip the card after answer selection
+            flashcard.classList.add('flipped');
+            document.getElementById('next-button').style.display = 'block'; // Show next button
+
+            if (selected === correct) {
+                score++;
+                feedback.innerText = "Correct!";
+                feedback.className = "feedback correct";
+                startConfetti();
+            } else {
+                score--; // Decrease score on wrong answer
+                feedback.innerText = "Wrong!";
+                feedback.className = "feedback wrong";
+                showSadFace();
+            }
+        }
+
+        function nextFlashcard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped'); // Reset the flip for the next card
+            displayCard(); // Load the next card
+        }
+
+        function startConfetti() {
+            const confetti = new ConfettiGenerator({ target: 'confetti', width: window.innerWidth, height: window.innerHeight });
+            confetti.render();
+            setTimeout(() => confetti.clear(), 2000); // Clear confetti after 2 seconds
+        }
+
+        function showSadFace() {
+            const img = document.createElement('img');
+            img.src = "https://images.fineartamerica.com/images-medium-large/sad-cat-leoch-studio.jpg"; // Sad face image
+            img.style.width = '100px'; // Adjust size
+            img.style.position = 'absolute';
+            img.style.top = '50%';
+            img.style.left = '50%';
+            img.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(img);
+            setTimeout(() => img.remove(), 2000); // Remove after 2 seconds
+        }
+
+        // Initial call to display the first flashcard
+        displayCard();
+    </script>
+</body>
+</html>
