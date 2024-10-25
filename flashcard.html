@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/confetti-js/1.0.1/confetti.min.js"></script>
+</head>
+<body>
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="front">
+                <h2 class="chinese" id="chinese"></h2>
+            </div>
+            <div class="back">
+                <h3 class="english" id="english"></h3>
+            </div>
+        </div>
+        
+        <div id="options" class="options"></div>
+        <button id="next-button" onclick="nextFlashcard()" style="display: none;">Next Flashcard</button>
+        
+        <div id="score" class="score">Score: 0</div>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        let flashcards = [];
+        let currentIndex = 0;
+        let score = 0;
+
+        // Sample flashcards - replace with actual data or load from JSON
+        const flashcardData = {
+            "HSK1": [
+                { "chinese": "八\nbā", "english": "eight; 8" },
+                { "chinese": "爸爸\nbà ba", "english": "father (informal); CL:个[ge4]" },
+                // Add more flashcards as necessary
+            ],
+            "HSK2": [
+                { "chinese": "杯子\nbēi zi", "english": "cup; glass; CL:个[ge4]" },
+                { "chinese": "北京\nběi jīng", "english": "Beijing; capital of PRC" },
+                // Add more flashcards as necessary
+            ]
+        };
+
+        function getLevel() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('level') || 'HSK1'; // Default to HSK1
+        }
+
+        function loadFlashcards() {
+            const level = getLevel();
+            flashcards = flashcardData[level] || [];
+            displayCard();
+        }
+
+        function displayCard() {
+            if (currentIndex >= flashcards.length) {
+                currentIndex = 0; // Reset for demo purposes
+            }
+
+            const card = flashcards[currentIndex];
+            document.getElementById('chinese').innerText = card.chinese;
+            document.getElementById('english').innerText = "";
+            document.getElementById('options').innerHTML = '';
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('next-button').style.display = 'none';
+
+            loadOptions(card.english.split(';')[0]); // Load options
+        }
+
+        function loadOptions(correctAnswer) {
+            const options = [correctAnswer];
+            while (options.length < 3) {
+                const randomCard = flashcards[Math.floor(Math.random() * flashcards.length)];
+                const option = randomCard.english.split(';')[0];
+                if (!options.includes(option)) {
+                    options.push(option);
+                }
+            }
+            options.sort(() => Math.random() - 0.5); // Shuffle options
+
+            const optionsDiv = document.getElementById('options');
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(option, correctAnswer);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const flashcard = document.getElementById('flashcard');
+            const feedback = document.getElementById('feedback');
+
+            flashcard.classList.add('flipped');
+            document.getElementById('next-button').style.display = 'block';
+
+            if (selected === correct) {
+                score++;
+                feedback.innerText = "Correct!";
+                feedback.className = "feedback correct";
+                startConfetti();
+            } else {
+                score--;
+                feedback.innerText = "Wrong!";
+                feedback.className = "feedback wrong";
+            }
+            document.getElementById('score').innerText = `Score: ${score}`;
+            document.getElementById('english').innerText = correct; // Show the correct answer
+        }
+
+        function nextFlashcard() {
+            currentIndex++;
+            displayCard();
+        }
+
+        function startConfetti() {
+            const confetti = new ConfettiGenerator({ target: 'confetti', width: window.innerWidth, height: window.innerHeight });
+            confetti.render();
+            setTimeout(() => confetti.clear(), 2000);
+        }
+
+        // Load flashcards on page load
+        loadFlashcards();
+    </script>
+</body>
+</html>
